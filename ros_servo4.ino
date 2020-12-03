@@ -86,7 +86,7 @@ void messageCb0(const std_msgs::Int8& msg){
     }
   else if(msg.data==1){//预备夹持
     rosServo[0].write(40);//爪子
-    for(int i=40;i<=145;i++){//臂关节40-145
+    for(int i=40;i<=140;i++){//臂关节40-140
       rosServo[2].write(i);
       if(i<=115){
         rosServo[1].write(195-i);//腕关节155-80
@@ -95,42 +95,47 @@ void messageCb0(const std_msgs::Int8& msg){
       }
     }
   else if(msg.data==2){//夹持
-    rosServo[2].write(145);//臂关节
+    for(int j=0;j<=80;j++){
+      rosServo[0].write(40+j);
+      delay(5);
+      }
+    //rosServo[0].write(120);//爪子
+    for(int i=0;i<=5;i++){
+      rosServo[2].write(140-i);
+      delay(5);
+      }
+    //rosServo[2].write(135);//臂关节 145水平
     rosServo[1].write(80);//腕关节
-    rosServo[0].write(120);//爪子
     }
   else if(msg.data==3){//抬起
 
-    for(int i=145;i>=40;i--){//臂关节145-40
-      rosServo[2].write(i);
-      if(i<=115 && i>=40){//腕关节80-155
-        rosServo[1].write(195-i);
-        }
-      delay(10);
-      }
-    
     rosServo[0].write(120);//爪子
+    for(int i=135;i>=40;i--){//臂关节135-40
+      rosServo[2].write(i);      
+      delay(5);
+      }
+    rosServo[1].write(155);//腕关节
     }
   else if(msg.data==4){//放下
     
     for(int i=40;i<=145;i++){//臂关节40-145
       rosServo[2].write(i);
-      if(i<=115){
-        rosServo[1].write(195-i);//腕关节155-80
+      if(i<=100){
+        rosServo[1].write(195-i);//腕关节155-95
         }
-      delay(10);
+      delay(5);
       }
    
     rosServo[0].write(120);//爪子
     }
   else if(msg.data==5){//放下张开
-    rosServo[2].write(145);//臂关节
+    rosServo[2].write(140);//臂关节
 
     
     rosServo[1].write(80);//腕关节
     rosServo[0].write(40);//爪子
     }
-  else if(msg.data==6){//初始张开
+  else if(msg.data==6){//初始闭合
     rosServo[0].write(120);//爪子
     }
 }

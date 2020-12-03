@@ -21,17 +21,17 @@ Servo rosServo[servoCount];//定义舵机
 **/
 void init_Pins() {//初始化对应的控制舵机引脚
   
-  PIN[0] = 11;//板子上引脚11 /gripper  爪子
+  PIN[0] = 11;//板子上引脚11 /gripper  爪子80
   originalAngle[0] = 80;//设置初始舵机角度
   servoMIN[0] = 15;//对应舵机最小脚15
   servoMAX[0] = 180;//对应舵机最大脚180
   
-  PIN[1] = 9;//板子上引脚9 /joint1 腕
+  PIN[1] = 9;//板子上引脚9 /joint1 腕100
   originalAngle[1] = 100;//设置初始舵机角度
   servoMIN[1] = 0;//对应舵机最小脚
   servoMAX[1] = 135;//对应舵机最大脚
   
-  PIN[2] = 8;//板子上引脚8 /joint2 臂
+  PIN[2] = 8;//板子上引脚8 /joint2 臂40
   originalAngle[2] = 40;//设置初始舵机角度
   servoMIN[2] = 0;//对应舵机最小脚
   servoMAX[2] = 180;//对应舵机最大脚
@@ -82,37 +82,42 @@ void messageCb0(int & data){
     }
   else if(data==1){//预备夹持
     rosServo[0].write(40);//爪子
-    for(int i=40;i<=145;i++){//臂关节40-145
+    for(int i=40;i<=140;i++){//臂关节40-140
       rosServo[2].write(i);
       if(i<=115){
         rosServo[1].write(195-i);//腕关节155-80
         }
-      delay(5);
+      delay(10);
       }
     }
   else if(data==2){//夹持
-    rosServo[2].write(145);//臂关节
+    for(int j=0;j<=80;j++){
+      rosServo[0].write(40+j);
+      delay(5);
+      }
+    //rosServo[0].write(120);//爪子
+    for(int i=0;i<=5;i++){
+      rosServo[2].write(140-i);
+      delay(5);
+      }
+    //rosServo[2].write(135);//臂关节 145水平
     rosServo[1].write(80);//腕关节
-    rosServo[0].write(120);//爪子
     }
   else if(data==3){//抬起
 
-    for(int i=145;i>=40;i--){//臂关节145-40
-      rosServo[2].write(i);
-      if(i<=115 && i>=40){//腕关节80-155
-        rosServo[1].write(195-i);
-        }
+    rosServo[0].write(120);//爪子
+    for(int i=135;i>=40;i--){//臂关节135-40
+      rosServo[2].write(i);      
       delay(10);
       }
-    
-    rosServo[0].write(120);//爪子
+    rosServo[1].write(155);//腕关节
     }
   else if(data==4){//放下
     
     for(int i=40;i<=145;i++){//臂关节40-145
       rosServo[2].write(i);
-      if(i<=115){
-        rosServo[1].write(195-i);//腕关节155-80
+      if(i<=100){
+        rosServo[1].write(195-i);//腕关节155-95
         }
       delay(10);
       }
@@ -120,13 +125,13 @@ void messageCb0(int & data){
     rosServo[0].write(120);//爪子
     }
   else if(data==5){//放下张开
-    rosServo[2].write(145);//臂关节
+    rosServo[2].write(140);//臂关节
 
     
     rosServo[1].write(80);//腕关节
     rosServo[0].write(40);//爪子
     }
-  else if(data==6){//初始张开
+  else if(data==6){//初始闭合
     rosServo[0].write(120);//爪子
     }
 }
