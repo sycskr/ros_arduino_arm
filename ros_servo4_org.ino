@@ -75,7 +75,7 @@ void messageCb0(const std_msgs::Int8& msg){
   rosServo[2].attach(PIN[2]);//设置舵机控制引脚
   
   if(msg.data==0){//初始位置
-    rosServo[0].write(80);//爪子*********************
+    rosServo[0].write(60);//爪子*********************
     for(int i=145;i>=40;i--){//臂关节145-40
       rosServo[2].write(i);      
       delay(10);
@@ -93,11 +93,11 @@ void messageCb0(const std_msgs::Int8& msg){
       }
     }
   else if(msg.data==2){//夹持
-    for(int j=0;j<=80;j++){//爪子闭合30-110*********************
+    for(int j=0;j<=70;j++){//爪子闭合30-110*********************
       rosServo[0].write(30+j);
       delay(10);
       }
-    //rosServo[0].write(110);//爪子*********************
+    //rosServo[0].write(100);//爪子*********************
     for(int i=0;i<=5;i++){//臂从140抬高到135
       rosServo[2].write(140-i);
       delay(5);
@@ -107,7 +107,7 @@ void messageCb0(const std_msgs::Int8& msg){
     }
   else if(msg.data==3){//抬起
 
-    rosServo[0].write(110);//爪子*********************
+    rosServo[0].write(100);//爪子*********************
     for(int i=135;i>=40;i--){//臂关节145-40
       rosServo[2].write(i);      
       delay(10);
@@ -124,7 +124,7 @@ void messageCb0(const std_msgs::Int8& msg){
       delay(10);
       }
    
-    rosServo[0].write(110);//爪子 闭合120*********************
+    rosServo[0].write(100);//爪子 闭合120*********************
     }
   else if(msg.data==5){//放下张开
     rosServo[2].write(140);//臂关节
@@ -134,7 +134,7 @@ void messageCb0(const std_msgs::Int8& msg){
     rosServo[0].write(30);//爪子 张开30*********************
     }
   else if(msg.data==6){//初始闭合
-    rosServo[0].write(110);//爪子*********************
+    rosServo[0].write(100);//爪子*********************
     }
 }
 
